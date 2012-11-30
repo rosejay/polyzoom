@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PolyZoom</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/_config.js"></script>
+    <script type="text/javascript" src="js/auth.js"></script>
+    <script type="text/javascript" src="js/feed.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpwTUd1u161jYYRjI5UX_x1dHEF0zm3DQ&sensor=false&libraries=drawing"></script>    
+
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <script type="text/javascript">
+/*
+    $.noConflict();
+    jQuery(document).ready(function($) {
+    
+      FB.init({
+        appId      : '281179248667932',
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+
+
+      function login(){
+        alert("s");
+        FB.login(function(response) {
+           // handle the response
+           console.log(response.authResponse.accessToken);
+         }, {scope: 'read_stream'});
+
+      }
+      FB.getLoginStatus(function(response) {
+
+        var uid = response.authResponse.userID;
+        var accessToken = response.authResponse.accessToken;
+        alert("s");
+
+        console.log(response.authResponse.accessToken);
+        
+        FB.getAuthResponse(function(response) {
+          console.log("d",response.authResponse.accessToken);
+        });
+
+        //alert(accessToken);
+        FB.api('me/', function(response) {
+          FB.api(response.location.id, function(response) {
+            //alert(response.location.latitude + "/" + response.location.longitude);
+          });
+        });
+
+        var num = 0;
+        var newsFeed = []; // news feed array
+        var feedURL = uid+'/home?access_token='+accessToken;
+
+        fbFeed(feedURL, function(model){
+          console.log("G",model);
+          
+        }); 
+
+        function fbFeed(url, callback){  
+          FB.api(url, function(response){
+            console.log("INSIDE", newsFeed.length, response);
+            console.log("URL", response.paging.next);
+            for(var i=0; i<response.data.length; i++){
+              newsFeed.push(response.data[i]);
+            }
+
+            if(newsFeed.length>100)
+              callback(response);
+
+            fbFeed(response.paging.next, callback);
+            
+          });
+        }
+
+
+
+    
+      });
+
+    });*/
+    </script>
+<!--
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+          js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1&appId=281179248667932";
+          fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+-->
+    <!--
+    <div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
+    -->
+      <div class="header">
+        <div class="header-inner">
+          <div class="header-right fr">
+            <div class="header-un-login">
+              
+              <a onclick="promptLogin()" class="login-button"> 
+                <span>Login</span>
+              </a>
+            </div>
+            <div class="header-login">
+              <a id="user-link" class="fl" href="">
+                <img id="user-avatar">
+                <p id="user-name"></p>
+              </a>
+              <div class="arrow-div fl">
+                <span class="arrow"></span>
+                <ul class="nav-down">
+                  <li>
+                    <a class="nav-item fl" href="" onclick="logout()"> Log Out </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--
+      <fb:login-button show-faces="true" width="200" max-rows="1" scope="read_stream, read_friendlists, publish_stream, friends_online_presence"></fb:login-button>
+      -->
+      <div id="page-2">
+        <!--
+        <div id="level-1" class="levelBox">
+          <div id="level-1-1" class="canvasBox">
+            <canvas class="canvas "></canvas>
+          </div>
+        </div>
+        -->
+      </div>
+      
+      <div class="systemTip">
+        <p></p>
+      </div>
+
+  </body>
+</html>
