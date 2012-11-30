@@ -100,14 +100,33 @@ $(document).ready(function(){
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 		
-
-		var tempHTML;
+		
+		var tempHTML; // html of a new level
 		curLevel = level;
 	
 		levelCanvasNum[level] ++; // canvas numbers for each level from 1, 2, 3, 4, 5. 
 
 		curIndex = levelCanvasNum[level]-1; // index from 0, 1, 2, ...
 
+		if(levelCanvasNum[level] == 1){ // create a new level
+			
+			tempHTML = "<div id='level-"+curLevel+"' class='clear levelBox'></div>\
+				          	<div id='level-"+curLevel+"-"+curIndex+"' class='canvasBox' style='width:"+(winwidth-12)+"px;height:"+(winheight-12)+"px'>\
+				            	<div class='canvas' id='map-"+curLevel+"-"+curIndex+"' ></div>\
+				          	</div>"
+			$("#page-2").append(tempHTML);
+			levelNum ++;
+		}
+		else{ // add a new canvas to an existed level
+
+			tempHTML = "<div id='level-"+curLevel+"-"+curIndex+"' class='canvasBox' style='width:"+(winwidth-12)+"px;height:"+(winheight-12)+"px'>\
+				            <div class='canvas' id='map-"+curLevel+"-"+curIndex+"' ></div>\
+				        </div>"
+			$("#level-"+curLevel).after(tempHTML);
+
+		}
+
+/*
 		if(levelCanvasNum[level] == 1){ // create a new level
 			
 			tempHTML = "<div id='level-"+curLevel+"' class='levelBox'>\
@@ -126,7 +145,7 @@ $(document).ready(function(){
 			$("#level-"+curLevel).append(tempHTML);
 
 		}
-
+*/
 		// create a google map object
 		var map = new google.maps.Map(document.getElementById("map-"+curLevel+"-"+curIndex),
 			mapOptions);
@@ -141,9 +160,11 @@ $(document).ready(function(){
 				google.maps.drawing.OverlayType.RECTANGLE
 			]},
 		});
-
-		drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
-		drawingManager.setMap(map);	
+		if(curLevel == 0){
+			drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+			drawingManager.setMap(map);	
+		}
+		
 
 
 		// draw a rectangle and create a new map
@@ -186,17 +207,25 @@ $(document).ready(function(){
 				levelHeight[i] = defaultHeight;
 			}
 
-			$("#level-"+i).css("height", levelHeight[i] + "%");
+			//$("#level-"+i).css("height", levelHeight[i] + "%");
 
 			for(var j = 0; j<levelCanvasNum[i]; j++){
-				$("#level-"+i+" #level-"+i+"-"+j+".canvasBox").css("zoom", levelHeight[i]+"%");
+				$("#level-"+i+"-"+j+".canvasBox").css("zoom", levelHeight[i]+"%");
+/*
+				$("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
+				$("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
+				*/
 			}
 
 		}
 		// for level 0
 		levelHeight[0] = 100 - levelHeight[1] - levelHeight[2];
-		$("#level-0").css("height", levelHeight[0] + "%");
-		$("#level-0 #level-0-0.canvasBox").css("zoom", levelHeight[0]+"%");
+		//$("#level-0").css("height", levelHeight[0] + "%");
+		$("#level-0-0.canvasBox").css("zoom", levelHeight[0]+"%");
+/*
+		$("#level-0-0.canvasBox").css("height", levelHeight[0]+"%");
+		$("#level-0-0.canvasBox").css("width", levelHeight[0]+"%");
+*/
 
 	}
 
