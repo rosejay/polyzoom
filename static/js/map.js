@@ -43,6 +43,8 @@ $(document).ready(function(){
 	var zoomedNum = 0;
 	var zoomedSizeBig = 60;
 	var zoomedSizeSmall = 20;
+	var scaledSizeBig=0.6;
+	var scaledSizeSmall=0.2;
 	function toggleZoomCanvas(level, index){
 		if($("#level-"+level+" #level-"+level+"-"+index+".canvasBox").hasClass("bigger")){
 			// already bigger, be smaller!
@@ -60,18 +62,26 @@ $(document).ready(function(){
 			if(levelCanvasNum[level] == 2 && levelNum == 2 ){
 				zoomedSizeBig = 80;
 				zoomedSizeSmall = 20;
+				 scaledSizeBig=0.8;
+				 scaledSizeSmall=0.2;
 			}
 			else if(levelCanvasNum[level] == 4){
 				zoomedSizeBig = 40;
 				zoomedSizeSmall = 20;
+				scaledSizeBig=0.4;
+				 scaledSizeSmall=0.2;
 			}
 			else if(levelCanvasNum[level] == 5){
 				zoomedSizeBig = 40;
 				zoomedSizeSmall = 15;
+				scaledSizeBig=0.4;
+				scaledSizeSmall= 0.15;
 			}
 			else{
 				zoomedSizeBig = 60;
 				zoomedSizeSmall = 20;
+				scaledSizeBig=0.6;
+				scaledSizeSmall=0.2;
 			}
 
 			for(var i = 0; i< levelNum; i++){
@@ -81,8 +91,8 @@ $(document).ready(function(){
 				else
 					$("#level-"+i).css("height", zoomedSizeSmall + "%");
 			}
-			$(".canvasBox").css("zoom", zoomedSizeSmall+"%");
-			$(".bigger").css("zoom", zoomedSizeBig+"%");
+			//$(".canvasBox").css("zoom", zoomedSizeSmall+"%");
+			//$(".bigger").css("zoom", zoomedSizeBig+"%");
 
 		}
 	}
@@ -199,10 +209,10 @@ $(document).ready(function(){
 
 		var defaultHeight = 100/levelNum; 
 		var levelHeight = new Array(0,0,0); 
-
+        var transform = [];
 		for(var i = levelNum - 1; i > 0; i--){
 			levelHeight[i] = 100/levelCanvasNum[i];
-
+ 
 			if(levelHeight[i]>defaultHeight){
 				levelHeight[i] = defaultHeight;
 			}
@@ -210,7 +220,11 @@ $(document).ready(function(){
 			//$("#level-"+i).css("height", levelHeight[i] + "%");
 
 			for(var j = 0; j<levelCanvasNum[i]; j++){
-				$("#level-"+i+"-"+j+".canvasBox").css("zoom", levelHeight[i]+"%");
+                transform = ['scale(' + levelHeight[i]/100 + ')'];
+				$("#level-"+i+"-"+j+".canvasBox").css('-moz-transform', transform.join(' '));
+				//$("#level-"+i+"-"+j+".canvasBox").css("zoom", levelHeight[i]+"%");
+			
+				{$("#map-"+i+"-"+j).css("zoom", "100%");}
 /*
 				$("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
 				$("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
@@ -221,7 +235,9 @@ $(document).ready(function(){
 		// for level 0
 		levelHeight[0] = 100 - levelHeight[1] - levelHeight[2];
 		//$("#level-0").css("height", levelHeight[0] + "%");
-		$("#level-0-0.canvasBox").css("zoom", levelHeight[0]+"%");
+		transform = ['scale(' + levelHeight[0]+ ')'];
+		$("#level-0-0.canvasBox").css('-moz-transform', transform.join(' '));
+		//$("#level-0-0.canvasBox").css("zoom", levelHeight[0]+"%");
 /*
 		$("#level-0-0.canvasBox").css("height", levelHeight[0]+"%");
 		$("#level-0-0.canvasBox").css("width", levelHeight[0]+"%");
