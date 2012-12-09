@@ -100,6 +100,7 @@ $(document).ready(function () {
          scaleControl: false,
          center: new google.maps.LatLng(40, -30),
          zoom: 3,
+		 disableDoubleClickZoom: true,
          mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
@@ -115,7 +116,7 @@ $(document).ready(function () {
          var posX = 0,
             posY = 0;
          var zoomValue = ($("#" + $($("#" + (map.getDiv().getAttribute('id'))).parent()).attr("id")).css('zoom'));
-         console.log(zoomValue);
+         //console.log(zoomValue);
          e = e || window.event;
          if (typeof e.pageX !== "undefined") {
             posX = e.pageX / zoomValue;
@@ -242,6 +243,10 @@ $(document).ready(function () {
          google.maps.event.addDomListener(document, "mousemove", function (e) {
             me.onMouseMove_(e);
          }),
+		 
+		 google.maps.event.addDomListener(document, "dblclick", function (e) {
+            me.onMouseDblClick_(e);
+         }),
          google.maps.event.addDomListener(document, "mouseup", function (e) {
             me.onMouseUp_(e);
          }), ];
@@ -255,6 +260,13 @@ $(document).ready(function () {
          this.mousePosn_ = null;
          this.mapPosn_ = null;
       };
+	  DragZoom.prototype.onMouseDblClick_ = function (e) {
+	  //var temp = $(this.map_.getDiv()).parent().attr("id").split("-");
+	  //console.log(temp[1]);
+	  //toggleZoomCanvas(temp[1],temp[2]);
+	   
+	  };
+	  
       DragZoom.prototype.isHotKeyDown_ = function (e) {
          var isHot;
          e = e || window.event;
