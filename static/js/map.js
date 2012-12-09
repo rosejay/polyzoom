@@ -111,26 +111,24 @@ $(document).ready(function () {
             map.setZoom(z);
          }
       }
-      var getMousePosition = function (e) {
+      var getMousePosition = function (e, map) {
          var posX = 0,
             posY = 0;
+         var zoomValue = ($("#" + $($("#" + (map.getDiv().getAttribute('id'))).parent()).attr("id")).css('zoom'));
+         console.log(zoomValue);
          e = e || window.event;
          if (typeof e.pageX !== "undefined") {
-            posX = e.pageX;
-            posY = e.pageY;
-         } else if (typeof e.clientX !== "undefined") {
-            posX = e.clientX 
-            posY = e.clientY 
+            posX = e.pageX / zoomValue;
+            posY = e.pageY / zoomValue;
          }
          return {
             left: posX,
             top: posY
          };
       };
-	  /*
+      /*
 	  We need to work here on getting the relative position to work with real-time drawing
 	  */
-	  
       var getElementPosition = function (h) {
          var posX = h.offsetLeft;
          var posY = h.offsetTop;
@@ -286,8 +284,8 @@ $(document).ready(function () {
             this.mapWidth_ = mapDiv.offsetWidth;
             this.mapHeight_ = mapDiv.offsetHeight;
             if (this.activatedByControl_) { // Veil covers entire map (except control)
-               var left = parseInt(this.buttonDiv_.style.left, 10) + this.visualPositionOffset_.width;
-               var top = parseInt(this.buttonDiv_.style.top, 10) + this.visualPositionOffset_.height;
+               var left = parseInt(this.buttonDiv_.style.left, 10);
+               var top = parseInt(this.buttonDiv_.style.top, 10);
                var width = this.visualSize_.width;
                var height = this.visualSize_.height;
                // Left veil rectangle:
@@ -341,7 +339,7 @@ $(document).ready(function () {
          }
       };
       DragZoom.prototype.getMousePoint_ = function (e) {
-         var mousePosn = getMousePosition(e);
+         var mousePosn = getMousePosition(e, this.map_);
          var p = new google.maps.Point();
          p.x = mousePosn.left - this.mapPosn_.left;
          p.y = mousePosn.top - this.mapPosn_.top;
@@ -354,7 +352,6 @@ $(document).ready(function () {
       DragZoom.prototype.onMouseDown_ = function (e) {
          if (this.map_ && this.hotKeyDown_) {
             this.mapPosn_ = getElementPosition(this.map_.getDiv());
-            console.log(this.mapPosn_.left, this.mapPosn_.top);
             this.dragging_ = true;
             this.startPt_ = this.endPt_ = this.getMousePoint_(e);
             var prj = this.prjov_.getProjection();
@@ -380,7 +377,7 @@ $(document).ready(function () {
          this.mouseDown_ = true;
       };
       DragZoom.prototype.onMouseMove_ = function (e) {
-         this.mousePosn_ = getMousePosition(e);
+         this.mousePosn_ = getMousePosition(e, this.map_);
          if (this.dragging_) {
             this.endPt_ = this.getMousePoint_(e);
             var left = Math.min(this.startPt_.x, this.endPt_.x);
