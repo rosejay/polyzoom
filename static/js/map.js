@@ -7,6 +7,10 @@ $(document).ready(function () {
    var centerHeight = 0.6;
    var winwidth = window.innerWidth;
    var winheight = window.innerHeight;
+   var lastScrolledLeft = 0;
+   var lastScrolledTop = 0;
+   var xMousePos = 0;
+   var yMousePos = 0;
    init();
 
    function init() {
@@ -100,7 +104,7 @@ $(document).ready(function () {
          scaleControl: false,
          center: new google.maps.LatLng(40, -30),
          zoom: 3,
-		 disableDoubleClickZoom: true,
+         disableDoubleClickZoom: true,
          mapTypeId: google.maps.MapTypeId.ROADMAP
       };
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
@@ -113,20 +117,31 @@ $(document).ready(function () {
          }
       }
       var getMousePosition = function (e, map) {
-         var posX = 0,
-            posY = 0;
          var zoomValue = ($("#" + $($("#" + (map.getDiv().getAttribute('id'))).parent()).attr("id")).css('zoom'));
          //console.log(zoomValue);
          e = e || window.event;
          if (typeof e.pageX !== "undefined") {
-            posX = e.pageX / zoomValue;
-            posY = e.pageY / zoomValue;
+            xMousePos = (e.clientX + (lastScrolledLeft)) / zoomValue;
+            yMousePos = (e.clientY + ((lastScrolledTop))) / zoomValue;
+            //console.log( (yMousePos*zoomValue),e .clientY,lastScrolledTop,"test");
          }
          return {
-            left: posX,
-            top: posY
+            left: xMousePos,
+            top: yMousePos
          };
       };
+      $("#page-2").scroll(function (e) {
+         if (lastScrolledLeft != $("#page-2").scrollLeft()) {
+            xMousePos -= lastScrolledLeft;
+            lastScrolledLeft = $("#page-2").scrollLeft();
+            xMousePos += lastScrolledLeft;
+         }
+         if (lastScrolledTop != $("#page-2").scrollTop()) {
+            yMousePos -= lastScrolledTop;
+            lastScrolledTop = $("#page-2").scrollTop();
+            //yMousePos += lastScrolledTop;
+         }
+      });
       /*
 	  We need to work here on getting the relative position to work with real-time drawing
 	  */
@@ -137,8 +152,9 @@ $(document).ready(function () {
          // Add offsets for all ancestors in the hierarchy
          while (parent !== null) {
             if (parent !== document.body && parent !== document.documentElement) {
-               posX -= parent.scrollLeft;
-               posY -= parent.scrollTop;
+               //posX -= parent.scrollLeft;
+               //posY -= parent.scrollTop;
+               console.log(posX, posY, parent.scrollTop, $(h).attr('id'), "testelem");
             }
             // See http://groups.google.com/group/google-maps-js-api-v3/browse_thread/thread/4cb86c0c1037a5e5
             // Example: http://notebook.kulchenko.com/maps/gridmove
@@ -243,8 +259,7 @@ $(document).ready(function () {
          google.maps.event.addDomListener(document, "mousemove", function (e) {
             me.onMouseMove_(e);
          }),
-		 
-		 google.maps.event.addDomListener(document, "dblclick", function (e) {
+         google.maps.event.addDomListener(document, "dblclick", function (e) {
             me.onMouseDblClick_(e);
          }),
          google.maps.event.addDomListener(document, "mouseup", function (e) {
@@ -260,19 +275,17 @@ $(document).ready(function () {
          this.mousePosn_ = null;
          this.mapPosn_ = null;
       };
-	  DragZoom.prototype.onMouseDblClick_ = function (e) {
-	  //var temp = $(this.map_.getDiv()).parent().attr("id").split("-");
-	  //console.log(temp[1]);
-	  //toggleZoomCanvas(temp[1],temp[2]);
-	   
-	  };
-	  
+      DragZoom.prototype.onMouseDblClick_ = function (e) {
+         //var temp = $(this.map_.getDiv()).parent().attr("id").split("-");
+         //console.log(temp[1]);
+         //toggleZoomCanvas(temp[1],temp[2]);
+      };
       DragZoom.prototype.isHotKeyDown_ = function (e) {
          var isHot;
          e = e || window.event;
          isHot = (e.shiftKey && this.key_ === "shift");
          if (!isHot) {
-            if (this.key_ === "shift") {
+            if ((this.key_ === "shift") && (e.keyCode === 16)) {
                isHot = true;
             }
          }
@@ -283,6 +296,7 @@ $(document).ready(function () {
          if (mousePosn) {
             var mapPosn = this.mapPosn_;
             var mapDiv = this.map_.getDiv();
+            console.log($(mapDiv).attr('id'), mousePosn.top, mapPosn.top, mapDiv.offsetHeight, (mapPosn.top + mapDiv.offsetHeight), "test2");
             return mousePosn.left > mapPosn.left && mousePosn.left < (mapPosn.left + mapDiv.offsetWidth) && mousePosn.top > mapPosn.top && mousePosn.top < (mapPosn.top + mapDiv.offsetHeight);
          } else {
             // if user never moved mouse
