@@ -115,6 +115,8 @@ $(document).ready(function () {
          if (map.getZoom() < z) {
             map.setZoom(z);
          }
+		 //$("map-" + curLevel + "-" + curIndex).css('borderColor',$("#").css('borderColor'))
+		 
       }
       var getMousePosition = function (e, map) {
          var zoomValue = ($("#" + $($("#" + (map.getDiv().getAttribute('id'))).parent()).attr("id")).css('zoom'));
@@ -154,7 +156,7 @@ $(document).ready(function () {
             if (parent !== document.body && parent !== document.documentElement) {
                //posX -= parent.scrollLeft;
                //posY -= parent.scrollTop;
-               console.log(posX, posY, parent.scrollTop, $(h).attr('id'), "testelem");
+               //console.log(posX, posY, parent.scrollTop, $(h).attr('id'), "testelem");
             }
             // See http://groups.google.com/group/google-maps-js-api-v3/browse_thread/thread/4cb86c0c1037a5e5
             // Example: http://notebook.kulchenko.com/maps/gridmove
@@ -296,7 +298,7 @@ $(document).ready(function () {
          if (mousePosn) {
             var mapPosn = this.mapPosn_;
             var mapDiv = this.map_.getDiv();
-            console.log($(mapDiv).attr('id'), mousePosn.top, mapPosn.top, mapDiv.offsetHeight, (mapPosn.top + mapDiv.offsetHeight), "test2");
+            //console.log($(mapDiv).attr('id'), mousePosn.top, mapPosn.top, mapDiv.offsetHeight, (mapPosn.top + mapDiv.offsetHeight), "test2");
             return mousePosn.left > mapPosn.left && mousePosn.left < (mapPosn.left + mapDiv.offsetWidth) && mousePosn.top > mapPosn.top && mousePosn.top < (mapPosn.top + mapDiv.offsetHeight);
          } else {
             // if user never moved mouse
@@ -385,9 +387,22 @@ $(document).ready(function () {
             this.boxDiv_ = document.createElement("div");
             this.boxDiv_.setAttribute("id", "selectDiv" + curLevel + "-" + selectDivs);
             // Apply default style values for the zoom box:
+			// define our colors
+			if (curLevel=0)
+			{
+			var colors = ["#CCCCCC","#333333","#990099","#000000", "#949c51", "#571c1e", "#f36533", "#782a80", "#f6a41d", "#ed1b24"];
+			// get a random color from list
+			var rand   = Math.floor(Math.random()*colors.length);
+			this.boxDiv_.style.borderColor = colors[rand];
+			}
+			else
+			{
+			this.boxDiv_.style.borderColor = "#736AFF";
+			}
             setVals(this.boxDiv_.style, {
-               border: "4px solid #736AFF"
+               border: "8px solid"
             });
+			
             // Apply mandatory style values:
             setVals(this.boxDiv_.style, {
                position: "absolute",
