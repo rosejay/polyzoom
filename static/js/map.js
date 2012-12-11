@@ -431,7 +431,7 @@
             this.boxDiv_.setAttribute("id", "selectDiv" + curLevel + "-" + selectDivs);
             // Apply default style values for the zoom box:
 			// define our colors
-			if (curLevel=0)
+			if (curLevel==0)
 			{
 			var colors = ["#CCCCCC","#333333","#990099","#000000", "#949c51", "#571c1e", "#f36533", "#782a80", "#f6a41d", "#ed1b24"];
 			// get a random color from list
