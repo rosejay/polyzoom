@@ -1,4 +1,4 @@
-$(document).ready(function () {
+
    var levelNum = 0;
    var levelCanvasNum = new Array(0, 0, 0); // 
    var displayRatio = new Array([1, 1], [0.7, 0.3], [0.6, 0.2], [0.55, 0.15], [0.6, 0.1]);
@@ -11,11 +11,15 @@ $(document).ready(function () {
    var lastScrolledTop = 0;
    var xMousePos = 0;
    var yMousePos = 0;
+  
+  /*
    init();
 
    function init() {
       newCanvas(0);
    }
+*/
+
    /*
 	$(".canvas").live('dblclick', function() {
 		var temp = $(this).parent().attr("id").split("-");
@@ -80,7 +84,7 @@ $(document).ready(function () {
       }
    }
 
-   function newCanvas(level, bnds) {
+   function newCanvas(level, feeds, bnds) {
       // google map 
       var tempHTML; // html of a new level
       curLevel = level;
@@ -110,6 +114,44 @@ $(document).ready(function () {
       };
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
       mapOptions);
+
+
+      generateMarker(level, feeds);
+
+      function generateMarker(level,feeds,bnds){
+         for(var i = 0; i<feeds.length; i++){
+            
+            // markers for level 0
+            if(level == 0){
+
+               var x = feeds[i].geo.coordinates[0];
+               var y = feeds[i].geo.coordinates[1];
+               
+               var content = feeds[i].text;
+               var username = feeds[i].from_user;
+               var txt = username + ": " + content; 
+
+               var point = new google.maps.LatLng(x, y);
+               new google.maps.Marker({
+
+                   position: point,
+                   map: map,
+                   title: txt
+               });
+            }
+            
+            //markers for level 1
+            if(level == 1){
+
+
+            }
+         }
+            
+      }
+         
+
+
+
       if (typeof bnds !== "undefined") {
          z = map.getZoom();
          map.fitBounds(bnds);
@@ -482,7 +524,7 @@ $(document).ready(function () {
             if (++temp[1] > 2) showTip("Sorry, no more than three levels ");
             else if (levelCanvasNum[temp[1]] == 5) //maximum 5 canvas per level
             showTip("Sorry, no more than five children per level ");
-            else newCanvas(temp[1], bnds);
+            else newCanvas(temp[1], feeds, bnds);
             this.dragging_ = false;
             this.onMouseMove_(e);
             if (!this.isHotKeyDown_(e)) {
@@ -563,4 +605,6 @@ $(document).ready(function () {
    }
 
    function showTip(tip) {}
-});
+
+
+

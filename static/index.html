@@ -4,17 +4,14 @@
     <title>PolyZoom</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
-    <script type="text/javascript" src="js/map.js"></script>
-    <script type="text/javascript" src="js/_config.js"></script>
-    <script type="text/javascript" src="js/auth.js"></script>
-    <script type="text/javascript" src="js/feed.js"></script>
+    
+
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpwTUd1u161jYYRjI5UX_x1dHEF0zm3DQ&sensor=false&libraries=drawing"></script>    
 
   </head>
   <body>
-    <div id="fb-root"></div>
+   <!-- <div id="fb-root"></div>-->
     <script type="text/javascript">
 /*
     $.noConflict();
@@ -101,6 +98,7 @@
     <!--
     <div class="fb-login-button" data-show-faces="true" data-width="200" data-max-rows="1"></div>
     -->
+    <!--
       <div class="header">
         <div class="header-inner">
           <div class="header-right fr">
@@ -126,11 +124,44 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <!--
       <fb:login-button show-faces="true" width="200" max-rows="1" scope="read_stream, read_friendlists, publish_stream, friends_online_presence"></fb:login-button>
       -->
-      <div id="page-2">
+
+
+  <div class="searchbar">
+    <div class="searchbar-c fl">
+      <input id="searchText" class="input" type="text" autocomplete="off" placeholder="search for a topic">
+    </div>
+    <div class="searchbar-r fl">
+      <div class="search-btn"></div>
+    </div>
+  </div>
+
+  <!-- small spot level 1 -->
+  <!--
+  <div class="spot">
+    <div class="spot-inner"></div>
+  </div>
+
+  <!-- spot level 2 -->
+  <!--
+  <div class="spot-2">
+    <div class="spot-2-inner">
+      <p>hello hello hhahahaha <span>text</span> owhj lin ye</p>
+
+    </div>
+    <div class="tri"></div>
+  </div>
+-->
+
+  <div class="loading-outer" style="display:none">
+    <div class="loading"></div>
+  </div>
+
+
+      <div id="page-2" style="display:none">
         <!--
         <div id="level-1" class="levelBox">
           <div id="level-1-1" class="canvasBox">
@@ -143,6 +174,10 @@
       <div class="systemTip">
         <p></p>
       </div>
+
+
+    <script type="text/javascript" src="js/map.js"></script>
+    <script type="text/javascript" src="js/twitter.js"></script>
 
   </body>
 </html>
