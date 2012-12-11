@@ -27,8 +27,8 @@ $(document).ready(function () {
 			newCanvas(temp[1]);
 	});
 	*/
-   /*
-	$(".canvas").live('click', function(e) {
+   
+	$(".canvas").live('dblclick', function(e) {
 		var temp = $(this).parent().attr("id").split("-");
 		console.log(e.pageX, e.pageY);
 		toggleZoomCanvas(temp[1],temp[2]);
@@ -46,34 +46,35 @@ $(document).ready(function () {
    var selectDivs = 0;
 
    function toggleZoomCanvas(level, index) {
-      if ($("#level-" + level + " #level-" + level + "-" + index + ".canvasBox").hasClass("bigger")) {
+      if ($(" #level-" + level + "-" + index + ".canvasBox").hasClass("bigger")) {
          // already bigger, be smaller!
-         $("#level-" + level + " #level-" + level + "-" + index + ".canvasBox").removeClass("bigger");
+         $(" #level-" + level + "-" + index + ".canvasBox").removeClass("bigger");
          zoomedNum--;
          resetStyle();
       } else {
          // make it bigger
-         $("#level-" + level + " .canvasBox").removeClass("bigger");
-         $("#level-" + level + " #level-" + level + "-" + index + ".canvasBox").addClass("bigger");
+         $(" .canvasBox").removeClass("bigger");
+         $(" #level-" + level + "-" + index + ".canvasBox").addClass("bigger");
          zoomedNum++;
          if (levelCanvasNum[level] == 2 && levelNum == 2) {
             zoomedSizeBig = 80;
             zoomedSizeSmall = 20;
          } else if (levelCanvasNum[level] == 4) {
-            zoomedSizeBig = 40;
-            zoomedSizeSmall = 20;
+            zoomedSizeBig = 70;
+            zoomedSizeSmall = 10;
          } else if (levelCanvasNum[level] == 5) {
-            zoomedSizeBig = 40;
-            zoomedSizeSmall = 15;
-         } else {
             zoomedSizeBig = 60;
+            zoomedSizeSmall = 10;
+         } else {
+            zoomedSizeBig = 100;
             zoomedSizeSmall = 20;
          }
+         /*
          for (var i = 0; i < levelNum; i++) {
             if (i == level || $("#level-" + i).children().hasClass("bigger")) {
                $("#level-" + i).css("height", zoomedSizeBig + "%");
             } else $("#level-" + i).css("height", zoomedSizeSmall + "%");
-         }
+         }*/
          $(".canvasBox").css("zoom", zoomedSizeSmall + "%");
          $(".bigger").css("zoom", zoomedSizeBig + "%");
       }
@@ -96,7 +97,7 @@ $(document).ready(function () {
          tempHTML = "<div id='level-" + curLevel + "-" + curIndex + "' class='canvasBox' style='width:" + (winwidth - 12) + "px;height:" + (winheight - 12) + "px'>\
 				            <div class='canvas' id='map-" + curLevel + "-" + curIndex + "' ></div>\
 				        </div>"
-         $("#level-" + curLevel).after(tempHTML);
+         $("#level-" + curLevel+ "-" + (curIndex-1)).after(tempHTML);
       }
       var mapOptions = {
          scrollwheel: false,
@@ -544,7 +545,7 @@ $(document).ready(function () {
          }
          //$("#level-"+i).css("height", levelHeight[i] + "%");
          for (var j = 0; j < levelCanvasNum[i]; j++) {
-            $("#level-" + i + "-" + j + ".canvasBox").css("zoom", levelHeight[i] + "%");
+            $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
             /*
 				$("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
 				$("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
