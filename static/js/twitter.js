@@ -1,14 +1,21 @@
 
 	
 	var searchTopic;
-	var page_num = 14; // max: 14
+	var page_num = 4; // max: 14
 
 
 	init();
 	function init () {
-
+		$("#searchText").focus();
 
 	}
+
+	$("#searchText").keyup(function(event) {  
+  		if(event.keyCode==13){  
+        	$(".search-btn").click();
+		}  
+ 	}); 
+
 	$(".search-btn").click(function(){
 
 		if($("#searchText").val()){

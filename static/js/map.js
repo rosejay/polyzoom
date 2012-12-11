@@ -103,6 +103,9 @@
 				        </div>"
          $("#level-" + curLevel+ "-" + (curIndex-1)).after(tempHTML);
       }
+
+      //console.log(bnds);
+
       var mapOptions = {
          scrollwheel: false,
          mapTypeControl: false,
@@ -116,38 +119,7 @@
       mapOptions);
 
 
-      generateMarker(level, feeds);
-
-      function generateMarker(level,feeds,bnds){
-         for(var i = 0; i<feeds.length; i++){
-            
-            // markers for level 0
-            if(level == 0){
-
-               var x = feeds[i].geo.coordinates[0];
-               var y = feeds[i].geo.coordinates[1];
-               
-               var content = feeds[i].text;
-               var username = feeds[i].from_user;
-               var txt = username + ": " + content; 
-
-               var point = new google.maps.LatLng(x, y);
-               new google.maps.Marker({
-
-                   position: point,
-                   map: map,
-                   title: txt
-               });
-            }
-            
-            //markers for level 1
-            if(level == 1){
-
-
-            }
-         }
-            
-      }
+      
          
 
 
@@ -575,6 +547,10 @@
       // create a google map object
       // draw a rectangle and create a new map
       resetStyle();
+
+      generateMarker(level, feeds, map, this.prjov_);
+
+
    }
 
    function resetStyle() {
