@@ -195,6 +195,7 @@ body{
   	-webkit-transition: all 0.15s ease-out;
   	transition: all 0.15s ease-out;
 	-webkit-user-select: none;
+	position: relative;
 }
 #page-2 .canvasBox .canvas{
 	background: #eee;

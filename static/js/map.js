@@ -548,7 +548,7 @@
       // draw a rectangle and create a new map
       resetStyle();
 
-      generateMarker(level, feeds, map, this.prjov_);
+      generateMarker(level, curIndex, feeds, map, bnds, this.prjov_);
 
 
    }

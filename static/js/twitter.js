@@ -46,7 +46,7 @@
 					else{
 						for(var i = 0; i<res.data.results.length; i++){
 							if(res.data.results[i].geo!= null){
-								console.log("//",res.data.results[i].geo.coordinates[0]);
+								console.log("//",res.data.results[i].geo.coordinates[0], res.data.results[i].geo.coordinates[1]);
 								newsFeed.push(res.data.results[i]);
 							}
 							else{
