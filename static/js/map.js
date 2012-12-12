@@ -158,7 +158,19 @@
          if (map.getZoom() < z) {
             map.setZoom(z);
          }
-		 //$("map-" + curLevel + "-" + curIndex).css('borderColor',$("#").css('borderColor'))
+		  //console.log (map.getDiv(),curLevel,curIndex);
+		  if ((curLevel == 1) && (curIndex == 0))
+		  {
+		     console.log(("#selectDiv-"+ curLevel + "-" + curIndex),$("#selectDiv-"+ (curLevel-1) + "-" + curIndex).css("borderColor"));
+			 $("map-" + curLevel + "-" + curIndex).css('borderColor',$("#selectDiv-"+ (curLevel-1) + "-" + curIndex).css('borderColor'));
+		  }
+		  else
+		  {
+		  console.log(("#selectDiv-"+ curLevel + "-" + curIndex),$("#selectDiv-"+ (curLevel) + "-" + (curIndex-1)).css("borderColor"));
+		  $("map-" + curLevel + "-" + curIndex).css('borderColor',$("#selectDiv-"+ (curLevel) + "-" + (curIndex-1)).css('borderColor'));
+		  }
+		 
+		  console.log($("map-" + curLevel + "-" + curIndex).css("borderColor"));
 		 
       }
       var getMousePosition = function (e, map) {
@@ -436,7 +448,7 @@
             var prj = this.prjov_.getProjection();
             var latlng = prj.fromContainerPixelToLatLng(this.startPt_);
             this.boxDiv_ = document.createElement("div");
-            this.boxDiv_.setAttribute("id", "selectDiv" + curLevel + "-" + selectDivs);
+            this.boxDiv_.setAttribute("id", "selectDiv-" + (curLevel) +"-" + curIndex);
             // Apply default style values for the zoom box:
 			// define our colors
 			var temp = this.map_.getDiv().id.split("-");
@@ -449,19 +461,21 @@
                position: "absolute",
                display: "none"
             });
-			var color = get_random_color()
-			console.log(color);
-			this.boxDiv_.style.borderColor = get_random_color();
+			
+			
+			
 			if (temp[1]==0)
 			{
 			
 			// get a random color from list
-			
+			var color = get_random_color()
+
+			this.boxDiv_.style.borderColor = get_random_color();
 			
 			}
 			else
 			{
-			//this.boxDiv_.style.borderColor = "#736AFF";
+			$(this.boxDiv_).css('borderColor',$("map-" + curLevel + "-" + curIndex).css('borderColor'));
 			}
            
             setOpacity(this.boxDiv_);
@@ -540,7 +554,10 @@
             else newCanvas(temp[1], feeds, bnds);
             this.dragging_ = false;
             this.onMouseMove_(e);
+			++selectDivs;
+               
             if (!this.isHotKeyDown_(e)) {
+			   			   
                this.onKeyUp_(e);
             }
          }
@@ -559,7 +576,7 @@
             for (i = 0; i < this.veilDiv_.length; i++) {
                this.veilDiv_[i].style.display = "none";
             }
-         }++selectDivs;
+         }
       };
       google.maps.Map.prototype.enableKeyDragZoom = function (opt_zoomOpts) {
          this.dragZoom_ = new DragZoom(this, opt_zoomOpts);
