@@ -12,13 +12,13 @@
    var xMousePos = 0;
    var yMousePos = 0;
   
-  /*
+ 
    init();
 
    function init() {
       newCanvas(0);
    }
-*/
+
 
    /*
 	$(".canvas").live('dblclick', function() {
@@ -34,7 +34,7 @@
    
 	$(".canvas").live('dblclick', function(e) {
 		var temp = $(this).parent().attr("id").split("-");
-		console.log(e.pageX, e.pageY);
+		//console.log(e.pageX, e.pageY);
 		toggleZoomCanvas(temp[1],temp[2]);
 	});
 /*
@@ -115,7 +115,7 @@
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
       mapOptions);
 
-
+      /*
       generateMarker(level, feeds);
 
       function generateMarker(level,feeds,bnds){
@@ -148,7 +148,7 @@
          }
             
       }
-         
+         */ 
 
 
 
@@ -242,6 +242,14 @@
             h.style.opacity = op;
          }
       };
+	  function get_random_color() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
 
       function DragZoom(map, opt_zoomOpts) {
          var me = this;
@@ -431,18 +439,8 @@
             this.boxDiv_.setAttribute("id", "selectDiv" + curLevel + "-" + selectDivs);
             // Apply default style values for the zoom box:
 			// define our colors
-			if (curLevel==0)
-			{
-			var colors = ["#CCCCCC","#333333","#990099","#000000", "#949c51", "#571c1e", "#f36533", "#782a80", "#f6a41d", "#ed1b24"];
-			// get a random color from list
-			var rand   = Math.floor(Math.random()*colors.length);
-			this.boxDiv_.style.borderColor = colors[rand];
-			}
-			else
-			{
-			this.boxDiv_.style.borderColor = "#736AFF";
-			}
-            setVals(this.boxDiv_.style, {
+			var temp = this.map_.getDiv().id.split("-");
+			 setVals(this.boxDiv_.style, {
                border: "8px solid"
             });
 			
@@ -451,6 +449,21 @@
                position: "absolute",
                display: "none"
             });
+			var color = get_random_color()
+			console.log(color);
+			this.boxDiv_.style.borderColor = get_random_color();
+			if (temp[1]==0)
+			{
+			
+			// get a random color from list
+			
+			
+			}
+			else
+			{
+			//this.boxDiv_.style.borderColor = "#736AFF";
+			}
+           
             setOpacity(this.boxDiv_);
             this.map_.getDiv().appendChild(this.boxDiv_);
             //this.boxBorderWidths_ = getBorderWidths(this.boxDiv_);
