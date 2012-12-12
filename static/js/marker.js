@@ -1,76 +1,50 @@
-	
-
-
-
-
-
-
-
-function generateMarker(level, index, feeds, map, bounds, ov_){
-	
-	var s,w,n,e; // south 
-	if (typeof bounds !== "undefined") {
-		var sw = bounds.getSouthWest();
-	    var ne = bounds.getNorthEast();
-
-	    s = sw.lat();
-	    w = sw.lng();
-	    n = ne.lat();
-	    e = ne.lng();
-
-	    //console.log(sw.lat(), sw.lng(), ne.lat(), ne.lng());
-	    console.log(sw,ne);
-	}
-
-	//var tempcanvas = document.createElement('canvas');
-	//processingInstance = new Processing(tempcanvas, drawObj);
-
-	for(var i = 0; i<feeds.length; i++){
-
-		var x = feeds[i].geo.coordinates[0]; // lat vertical
-		var y = feeds[i].geo.coordinates[1]; // lng horizontal
-
-		var content = feeds[i].text;
-		var username = feeds[i].from_user;
-
-		// markers for level 0
-		if(level == 0){
-
-			if(x!=0 && y!=0){
-
-				var txt = username + ": " + content; 
-
-				var point = new google.maps.LatLng(x, y);
-				new google.maps.Marker({
-					position: point,
-					map: map,
-					title: txt
-				});
-
-				//var latlng = new google.maps.LatLng(x,y);
-				//var point3 = map.getProjection().fromLatLngToPoint(point);
-				//console.log("11point",point3);
-
-			}
-				
-		}
-
-		//markers for level 1
-		else if(level == 1){
-
-			if ( x<=n && x>=s && y<=e  && y>=w ){ // if the point is in the area
-
-
-				var latlng = new google.maps.LatLng(x,y);
-				var point = map.getProjection().fromLatLngToPoint(latlng);
-				console.log("point",point);
-
-				var mark = "<div class='spot' style='top:"+point.y+"px;left:"+point.x+"px'><div class='spot-inner'></div></div>";
-				
-				$("#level-" + level+ "-" + index).append(mark);
-				
-
-				/*
+function generateMarker(level, index, feeds, map, bounds, ov_) {
+   var s, w, n, e; // south 
+   if (typeof bounds !== "undefined") {
+      var sw = bounds.getSouthWest();
+      var ne = bounds.getNorthEast();
+      s = sw.lat();
+      w = sw.lng();
+      n = ne.lat();
+      e = ne.lng();
+      //console.log(sw.lat(), sw.lng(), ne.lat(), ne.lng());
+      console.log(sw, ne);
+   }
+   //var tempcanvas = document.createElement('canvas');
+   //processingInstance = new Processing(tempcanvas, drawObj);
+   for (var i = 0; i < feeds.length; i++) {
+      var x = feeds[i].geo.coordinates[0]; // lat vertical
+      var y = feeds[i].geo.coordinates[1]; // lng horizontal
+      var content = feeds[i].text;
+      var username = feeds[i].from_user;
+      // markers for level 0
+      if (level == 0) {
+         if (x != 0 && y != 0) {
+            var txt = username + ": " + content;
+            var point = new google.maps.LatLng(x, y);
+            new google.maps.Marker({
+               position: point,
+               map: map,
+               title: txt
+            });
+            //var latlng = new google.maps.LatLng(x,y);
+            //var point3 = map.getProjection().fromLatLngToPoint(point);
+            //console.log("11point",point3);
+         }
+      }
+      //markers for level 1
+      else if (level == 1) {
+         if (x <= n && x >= s && y <= e && y >= w) { // if the point is in the area
+            overlay = new google.maps.OverlayView();
+            overlay.draw = function () {};
+            overlay.setMap(map);
+            var latlng = new google.maps.LatLng(x, y);
+            var containerPixel = overlay.getProjection().fromLatLngToContainerPixel(latlng);
+            //var point = map.getProjection().fromLatLngToPoint(latlng);
+            console.log(containerPixel.x);
+            var mark = "<div class='spot' style='top:" + containerPixel.y + "px;left:" + containerPixel.x + "px'><div class='spot-inner'></div></div>";
+            $("#level-" + level + "-" + index).append(mark);
+            /*
 				function drawObj(processing){
 
 					processing.size(100, 100);
@@ -202,20 +176,9 @@ function generateMarker(level, index, feeds, map, bounds, ov_){
 					}
 				}
 	*/
-
-			
-			}
-
-				
-
-
-		}
-
-		//markers for level 2
-		else if(level == 2){
-
-
-		}
-	}
-
+         }
+      }
+      //markers for level 2
+      else if (level == 2) {}
+   }
 }
