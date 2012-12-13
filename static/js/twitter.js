@@ -1,7 +1,7 @@
 
 	
 	var searchTopic;
-	var page_num = 4; // max: 14
+	var page_num = 1; // max: 14
 
 
 	init();
