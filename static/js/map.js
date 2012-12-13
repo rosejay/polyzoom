@@ -70,7 +70,7 @@
             zoomedSizeBig = 60;
             zoomedSizeSmall = 10;
          } else {
-            zoomedSizeBig = 100;
+            zoomedSizeBig = 80;
             zoomedSizeSmall = 20;
          }
          /*
@@ -113,10 +113,15 @@
          center: new google.maps.LatLng(40, -30),
          zoom: 3,
          disableDoubleClickZoom: true,
-         mapTypeId: google.maps.MapTypeId.ROADMAP
+         mapTypeId: google.maps.MapTypeId.ROADMAP,
+         draggable: false,
+         zoomControl: false,
+         streetViewControl: false,
+         panControl: false
       };
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
       mapOptions);
+
 
 
       
@@ -379,6 +384,7 @@
             this.hotKeyDown_ = true;
             this.activatedByControl_ = false;
             this.setVeilVisibility_();
+
          }
       };
       DragZoom.prototype.getMousePoint_ = function (e) {

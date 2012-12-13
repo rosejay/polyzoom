@@ -42,26 +42,99 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
             var containerPixel = overlay.getProjection().fromLatLngToContainerPixel(latlng);
             //var point = map.getProjection().fromLatLngToPoint(latlng);
             console.log(containerPixel.x);
-            var mark = "<div class='spot' style='top:" + containerPixel.y + "px;left:" + containerPixel.x + "px'><div class='spot-inner'></div></div>";
+/*
+            content = content.replace(searchTopic, '<span>'+searchTopic+'</span>');
+
+            var mark = "<div class='spot-2' style='top:"+containerPixel.y+"px; left:"+containerPixel.x+"px'>\
+						<div class='spot-2-inner'>\
+							<p><span><a href='http://twitter.com/"+ username +"'>"+ username +"</a>: </span>\
+							"+ content +"</p>\
+						</div>\
+						<div class='tri'></div>\
+					</div>";
+
+
+            //var mark = "<div class='spot' style='top:" + containerPixel.y + "px;left:" + containerPixel.x + "px'><div class='spot-inner'></div></div>";
             $("#level-" + level + "-" + index).append(mark);
-            /*
-				function drawObj(processing){
+            */
+            var tempcanvas = document.createElement('canvas');
+    		processingInstance = new Processing(tempcanvas, drawObj);
+    		$(tempcanvas).css("top", containerPixel.y+"px")
+    					.css("left", containerPixel.x+"px")
+    					.addClass("tweetCanvas");
 
-					processing.size(100, 100);
-					processing.background(255,255,255);
-					processing.fill(0, 0, 0);
-					processing.noLoop();
-					processing.text(content, 10, 10, 80, 80);
+    		console.log(content, content.length/40);
 
-					var canvas = document.getElementById("canvas");
-					
-				}
-				$("body").append(tempcanvas);
+    		
+
+			function drawObj(processing){
+
+				var borderWidth = 40;
+				var fontSize = 27;
+	    		var lineHeight = 36;
+	   			var strokeWeight = 1;
+	    		var corner = 10;
+				var canvasWidth = 600;
+				var canvasHeight = (parseInt(content.length/40) + 2) * lineHeight + borderWidth*2;
+				var triWidth = 40;
+				var div = 5;
+
+				processing.size(canvasWidth, canvasHeight + triWidth);
+				processing.background(255,255,205,0);
+
+				processing.fill(255,255,205);
+				processing.stroke(255,255,205);
+				processing.strokeWeight(strokeWeight);
+				processing.rect(strokeWeight, strokeWeight, canvasWidth-strokeWeight*2, canvasHeight-strokeWeight*2, 
+								corner, corner, corner, corner);
+
+				processing.fill(139,131,87);
+				processing.noLoop();
 
 
-				var latlng = new google.maps.LatLng(x,y);
-				var point = map.getProjection().fromLatLngToPoint(latlng);
-				console.log(point);
+				var font = processing.loadFont("css/Helvetica Bold.Ttf"); 
+				processing.textFont(font, fontSize); 
+				processing.textLeading(lineHeight);
+
+				processing.text(username, borderWidth, borderWidth, 
+								canvasWidth - borderWidth*2, canvasHeight - borderWidth*2);
+
+
+				var font = processing.loadFont("css/Helvetica.Ttf"); 
+				processing.textFont(font, fontSize); 
+				processing.textLeading(lineHeight);
+
+				processing.text(content, borderWidth, borderWidth + lineHeight, 
+								canvasWidth - borderWidth*2, canvasHeight - borderWidth*2);
+
+				processing.fill(255,255,205);
+				processing.stroke(255,255,205);
+
+				processing.beginShape();
+				processing.vertex((canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 -div);
+				processing.vertex((canvasWidth-triWidth)/2 + triWidth, canvasHeight-strokeWeight*2 -div);
+				processing.vertex((canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 + triWidth -div);
+				processing.endShape();
+
+				processing.stroke(255,255,205);
+				/*
+				processing.line( (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2,
+								(canvasWidth-triWidth)/2 + triWidth, canvasHeight-strokeWeight*2 );
+				*/
+				processing.line( (canvasWidth-triWidth)/2 + triWidth, canvasHeight-strokeWeight*2,
+								 (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 + triWidth -div );
+				processing.line( (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 + triWidth -div,
+								 (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2);
+				
+			
+				$(tempcanvas).css("margin-top",-canvasHeight/2 + "px");
+				$(tempcanvas).css("margin-left",-canvasWidth/2 + "px");
+
+				$("#level-" + level + "-" + index).append(tempcanvas);
+			}
+				
+
+
 
 
 
@@ -182,3 +255,20 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
       else if (level == 2) {}
    }
 }
+
+$(".tweetCanvas").live({
+	mouseenter: function(){
+		$(".tweetCanvas").addClass("fade");
+		$(this).removeClass("fade");
+		$(this).addClass("ho");
+	},
+	mouseleave: function(){
+		$(this).removeClass("ho");
+		$(".tweetCanvas").removeClass("fade");
+	}
+});
+
+
+
+
+
