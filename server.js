@@ -1,7 +1,12 @@
 var express = require('express'),
 	http = require('http'),
+	mongo = require('mongodb'),
     app = express.createServer();
 
+var db;
+mongo.connect('mongodb://localhost:27017/tweet', function(err, conn){
+	db = conn;
+});
 
 var util = require('util'),
 	twitter = require('twitter');
@@ -49,5 +54,20 @@ app.get('/get/tweets', function(req, res){
 			});
 		});
 });
+
+app.get('/get/tweets/db', function(req, res){
+
+	db.collection('tweet').find({ "topic" : req.query.txt })
+		.toArray(function(err, result){
+
+			res.send({
+				err : null,
+				result : result
+			})
+		})
+});
+
+
+
 
 app.listen(8888);

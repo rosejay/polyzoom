@@ -106,6 +106,31 @@
 
       //console.log(bnds);
 
+
+      // change map style!
+      var styles = [
+        {
+          stylers: [
+            { hue: "#f9f6e7" },
+            { saturation: 7 },
+            { lightness: 70 }
+          ]
+        },{
+          featureType: "road",
+          elementType: "geometry",
+          stylers: [
+            { lightness: 100 },
+            { visibility: "simplified" }
+          ]
+        },{
+          featureType: "road",
+          elementType: "labels",
+          stylers: [
+            { visibility: "off" }
+          ]
+        }
+      ];
+
       var mapOptions = {
          scrollwheel: false,
          mapTypeControl: false,
@@ -122,8 +147,8 @@
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
       mapOptions);
 
-
-
+      // attach map style!!
+      map.setOptions({styles: styles});
       
          
 
