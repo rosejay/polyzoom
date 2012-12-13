@@ -73,12 +73,12 @@
             zoomedSizeBig = 80;
             zoomedSizeSmall = 20;
          }
-         
+         /*
          for (var i = 0; i < levelNum; i++) {
             if (i == level || $("#level-" + i).children().hasClass("bigger")) {
                $("#level-" + i).css("height", zoomedSizeBig + "%");
             } else $("#level-" + i).css("height", zoomedSizeSmall + "%");
-         }
+         }*/
          $(".canvasBox").css("zoom", zoomedSizeSmall + "%");
          $(".bigger").css("zoom", zoomedSizeBig + "%");
       }
@@ -91,10 +91,10 @@
       levelCanvasNum[level]++; // canvas numbers for each level from 1, 2, 3, 4, 5. 
       curIndex = levelCanvasNum[level] - 1; // index from 0, 1, 2, ...
       if (levelCanvasNum[level] == 1) { // create a new level
-         tempHTML = "<div id='level-" + curLevel + "' class='clear levelBox'>\
+         tempHTML = "<div id='level-" + curLevel + "' class='clear levelBox'></div>\
 				          	<div id='level-" + curLevel + "-" + curIndex + "' class='canvasBox' style='width:" + (winwidth - 12) + "px;height:" + (winheight - 12) + "px'>\
 				            	<div class='canvas' id='map-" + curLevel + "-" + curIndex + "' ></div>\
-				          	</div></div>"
+				          	</div>"
          $("#page-2").append(tempHTML);
          levelNum++;
       } else { // add a new canvas to an existed level
@@ -592,7 +592,7 @@
          if (levelHeight[i] > defaultHeight) {
             levelHeight[i] = defaultHeight;
          }
-         $("#level-"+i).css("height", levelHeight[i] + "%");
+         //$("#level-"+i).css("height", levelHeight[i] + "%");
          for (var j = 0; j < levelCanvasNum[i]; j++) {
             $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
             /*
@@ -603,7 +603,7 @@
       }
       // for level 0
       levelHeight[0] = 100 - levelHeight[1] - levelHeight[2];
-      $("#level-0").css("height", levelHeight[0] + "%");
+      //$("#level-0").css("height", levelHeight[0] + "%");
       $("#level-0-0.canvasBox").css("zoom", levelHeight[0] + "%");
       /*
 		$("#level-0-0.canvasBox").css("height", levelHeight[0]+"%");
