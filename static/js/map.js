@@ -107,29 +107,6 @@
       //console.log(bnds);
 
 
-      // change map style!
-      var styles = [
-        {
-          stylers: [
-            { hue: "#f9f6e7" },
-            { saturation: 7 },
-            { lightness: 70 }
-          ]
-        },{
-          featureType: "road",
-          elementType: "geometry",
-          stylers: [
-            { lightness: 100 },
-            { visibility: "simplified" }
-          ]
-        },{
-          featureType: "road",
-          elementType: "labels",
-          stylers: [
-            { visibility: "off" }
-          ]
-        }
-      ];
 
       var mapOptions = {
          scrollwheel: false,
@@ -147,13 +124,10 @@
       var map = new google.maps.Map(document.getElementById("map-" + curLevel + "-" + curIndex),
       mapOptions);
 
-      // attach map style!!
-      map.setOptions({styles: styles});
+
+
       
-         
-
-
-
+      
       if (typeof bnds !== "undefined") {
          z = map.getZoom();
          map.fitBounds(bnds);
@@ -579,7 +553,7 @@
       // draw a rectangle and create a new map
       resetStyle();
 
-      generateMarker(level, curIndex, feeds, map, bnds, this.prjov_);
+      generateMarker(level, curIndex, feeds, map, bnds);
 
 
    }

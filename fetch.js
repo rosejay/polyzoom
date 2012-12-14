@@ -14,7 +14,7 @@ var twit = new twitter({
 var db = mongo.db('localhost:27017/tweet?auto_reconnect');
 var coll = db.collection('tweet');
 
-var searchTopic = "paris";
+var searchTopic = "facebook";
 // ted paris obama CHI2013/ china happy apple twitter facebook
 
 function getTweets(search, page, max, limit){

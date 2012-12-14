@@ -1,8 +1,14 @@
-function generateMarker(level, index, feeds, map, bounds, ov_) {
+function generateMarker(level, index, feeds, map, bounds) {
 
+	// map style!
+	var styleIndex = Math.floor((Math.random()*5));
+	console.log(styleIndex);
+	var mapstyle = styles[styleIndex];
+	// attach map style!!
+	map.setOptions({styles: mapstyle});
+	$("#level-" + level + "-" + index + ".canvasBox").css("border-top", "5px solid "+borderColor[styleIndex]);
 
 	var markers = [];
-
 
 	var s, w, n, e; // south 
 	if (typeof bounds !== "undefined") {
@@ -44,7 +50,7 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
 
 			if (x != 0 || y != 0) {
 
-				var image = new google.maps.MarkerImage('img/marker.png',
+				var image = new google.maps.MarkerImage(markerimage[styleIndex],
 									new google.maps.Size(20, 20), 
 									new google.maps.Point(0,0), 
 									new google.maps.Point(10, 10));
@@ -110,7 +116,7 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
 		var markerCluster = new MarkerClusterer(map, markers,{
 			gridSize: 20,
 			minimumClusterSize: 1,
-			textColor: "#ffffff"
+			styles: markerstyles[styleIndex]
         });
 
 	}
@@ -131,7 +137,7 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
 					var username = feeds[i].username;
 
 					// normal marker
-					var image = new google.maps.MarkerImage('img/marker.png',
+					var image = new google.maps.MarkerImage(markerimage[styleIndex],
 									new google.maps.Size(20, 20), 
 									new google.maps.Point(0,0), 
 									new google.maps.Point(10, 10));
@@ -174,16 +180,23 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
 						var triWidth = 40;
 						var div = 0;
 
-						processing.size(canvasWidth, canvasHeight + triWidth);
-						processing.background(255,255,205,0);
+						var colorBG = [ processing.color(75,75,75),
+										processing.color(229, 75, 75),
+										processing.color(68, 102, 157),
+										processing.color(111, 168, 88)];
 
-						processing.fill(255,255,205);
-						processing.stroke(255,255,205);
+						var fontColor = processing.color[255,255,255];
+
+						processing.size(canvasWidth, canvasHeight + triWidth);
+						processing.background(255,255,255,0);
+
+						processing.fill( colorBG[styleIndex] );
+						processing.stroke( colorBG[styleIndex] );
 						processing.strokeWeight(strokeWeight);
 						processing.rect(strokeWeight, strokeWeight, canvasWidth-strokeWeight*2, canvasHeight-strokeWeight*2, 
 										corner, corner, corner, corner);
 
-						processing.fill(139,131,87);
+						processing.fill(fontColor);
 						processing.noLoop();
 
 
@@ -202,8 +215,8 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
 						processing.text(content, borderWidth, borderWidth + lineHeight, 
 										canvasWidth - borderWidth*2, canvasHeight - borderWidth*2);
 
-						processing.fill(255,255,205);
-						processing.stroke(255,255,205);
+						processing.fill( colorBG[styleIndex] );
+						processing.stroke( colorBG[styleIndex] );
 
 						processing.beginShape();
 						processing.vertex((canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 -div);
@@ -211,16 +224,15 @@ function generateMarker(level, index, feeds, map, bounds, ov_) {
 						processing.vertex((canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 + triWidth -div);
 						processing.endShape();
 
-						processing.stroke(255,255,205);
 						/*
+						processing.stroke(255,255,205);
 						processing.line( (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2,
 										(canvasWidth-triWidth)/2 + triWidth, canvasHeight-strokeWeight*2 );
-						*/
 						processing.line( (canvasWidth-triWidth)/2 + triWidth, canvasHeight-strokeWeight*2,
 										 (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 + triWidth -div );
 						processing.line( (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2 + triWidth -div,
 										 (canvasWidth-triWidth)/2, canvasHeight-strokeWeight*2);
-						
+						*/
 					
 						$(tempcanvas).css("margin-top",-canvasHeight-triWidth + "px");
 						$(tempcanvas).css("margin-left",-canvasWidth/2 + triWidth/2 + "px");

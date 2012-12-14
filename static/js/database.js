@@ -19,7 +19,6 @@
 
 			for(var i = 0; i<res.result.length; i++){
 				
-				console.log("//",res.result[i].geo.coordinates[0], res.result[i].geo.coordinates[1]);
 				newsFeed.push(res.result[i]);
 			}
 
