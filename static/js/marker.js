@@ -7,7 +7,8 @@ function generateMarker(level, index, feeds, map, bounds) {
 	// attach map style!!
 	map.setOptions({styles: mapstyle});
 	$("#level-" + level + "-" + index + ".canvasBox").css("border-top", "5px solid "+borderColor[styleIndex]);
-
+	$("#level-" + level + "-" + index + ".canvasBox").addClass("style"+styleIndex);
+	
 	var markers = [];
 
 	var s, w, n, e; // south 
@@ -183,7 +184,8 @@ function generateMarker(level, index, feeds, map, bounds) {
 						var colorBG = [ processing.color(75,75,75),
 										processing.color(229, 75, 75),
 										processing.color(68, 102, 157),
-										processing.color(111, 168, 88)];
+										processing.color(111, 168, 88),
+										processing.color(255, 153, 0)];
 
 						var fontColor = processing.color[255,255,255];
 
@@ -402,7 +404,6 @@ function playMarker(level, index){
 
 		if(index== canvas.length){
 
-			$("#level-"+level+"-"+index+" .tweetCanvas").css("opacity", 0.3);
 			return;
 		}
 			

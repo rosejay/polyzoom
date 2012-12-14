@@ -49,7 +49,7 @@ var styles = [
 					stylers: [
 						{ hue: "#86c5cc" },
 						{ saturation: 34 },
-						{ lightness: 80 }
+						{ lightness: 70 }
 					]
 				},{
 					featureType: "road",
@@ -71,7 +71,7 @@ var styles = [
 					stylers: [
 						{ hue: "#6fa858" },
 						{ saturation: 48 },
-						{ lightness: 80 }
+						{ lightness: 70 }
 					]
 				},{
 					featureType: "road",
@@ -308,5 +308,5 @@ var markerstyles = [
 
 
 
-var markerimage =['img/marker.png','img/marker2.png','img/marker3.png','img/marker4.png']
+var markerimage =['img/marker.png','img/marker2.png','img/marker3.png','img/marker4.png','img/marker5.png']
 var borderColor = ["#4b4b4d", "#e54b4b", "#44669d", "#6fa858", "#ff9900"];

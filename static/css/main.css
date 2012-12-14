@@ -94,7 +94,21 @@ body{
 	-webkit-user-select: none;
 }
 
-
+#page-2 .canvasBox.style0 .selectDiv{
+	border: 8px solid #4b4b4d;
+}
+#page-2 .canvasBox.style1 .selectDiv{
+	border: 8px solid #e54b4b;
+}
+#page-2 .canvasBox.style2 .selectDiv{
+	border: 8px solid #44669d;
+}
+#page-2 .canvasBox.style3 .selectDiv{
+	border: 8px solid #6fa858;
+}
+#page-2 .canvasBox.style4 .selectDiv{
+	border: 8px solid #ff9900;
+}
 
 /* marker */
 

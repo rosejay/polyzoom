@@ -378,7 +378,7 @@
          }
       };
       DragZoom.prototype.onKeyDown_ = function (e) {
-         if (this.map_ && !this.hotKeyDown_ && this.isHotKeyDown_(e)) {
+         if (this.map_ && !this.hotKeyDown_ && this.isHotKeyDown_(e) && curLevel!=2) {
             this.mapPosn_ = getElementPosition(this.map_.getDiv());
             this.hotKeyDown_ = true;
             this.activatedByControl_ = false;
@@ -406,8 +406,10 @@
             var latlng = prj.fromContainerPixelToLatLng(this.startPt_);
             this.boxDiv_ = document.createElement("div");
             this.boxDiv_.setAttribute("id", "selectDiv" + curLevel + "-" + selectDivs);
+            this.boxDiv_.setAttribute("class", "selectDiv"); //!!!
             // Apply default style values for the zoom box:
 			// define our colors
+         /*
 			if (curLevel=0)
 			{
 			var colors = ["#CCCCCC","#333333","#990099","#000000", "#949c51", "#571c1e", "#f36533", "#782a80", "#f6a41d", "#ed1b24"];
@@ -422,7 +424,7 @@
             setVals(this.boxDiv_.style, {
                border: "8px solid"
             });
-			
+			*/
             // Apply mandatory style values:
             setVals(this.boxDiv_.style, {
                position: "absolute",
