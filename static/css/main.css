@@ -64,15 +64,22 @@ body{
 
 }
 #page-2 .levelBox{
-	
+	/*
 	width: 100%;
 	height: 100%;
 	float: left;
 	
 	display: -webkit-box;
     -webkit-box-pack: center;
-    -webkit-box-align: start;
+    -webkit-box-align: start;*/
 	-webkit-user-select: none;
+}
+#page-2 .canvasBox.fullscreen{
+	position: absolute;
+	z-index: 200;
+	top: -2px;
+	left: -2px;
+	zoom: 1 !important;
 }
 #page-2 .canvasBox{
 	margin: 5px;
@@ -108,6 +115,22 @@ body{
 }
 #page-2 .canvasBox.style4 .selectDiv{
 	border: 8px solid #ff9900;
+}
+
+.selectDiv.styleDiv0{
+	border: 8px solid #4b4b4d !important;
+}
+.selectDiv.styleDiv1{
+	border: 8px solid #e54b4b !important;
+}
+.selectDiv.styleDiv2{
+	border: 8px solid #44669d !important;
+}
+.selectDiv.styleDiv3{
+	border: 8px solid #6fa858 !important;
+}
+.selectDiv.styleDiv4{
+	border: 8px solid #ff9900 !important;
 }
 
 /* marker */
@@ -345,6 +368,7 @@ input:-moz-placeholder, textarea:-moz-placeholder {
 	height: 40px;
 	background: url(../img/back.png) no-repeat #4b4b4d;
 	display: none;
+	z-index: 300;
 }
 .back-search a{
 	cursor: pointer;
@@ -356,10 +380,116 @@ input:-moz-placeholder, textarea:-moz-placeholder {
 	margin: 0 15px 0 30px;
 }
 
+.systemTip{
+	position: absolute;
+	left: 0;
+	top: 60px;
+	opacity: 0.7;
+	color: #f9f6e7;
+	font-size: 16px;
+	line-height: 30px;
+	display: none;
+	z-index: 300;
+}
+.systemTip p{
+	margin: 0 15px;
+}
 
 
 
 
+.canvasBox:hover .deletePic{
+	opacity:1.0;
+
+	transition:all 0.5s;
+	-moz-transition:all 0.5s; /* Firefox 4 */
+	-webkit-transition:all 0.5s; /* Safari and Chrome */
+	-o-transition:all 0.5s; /* Opera */
+}
+.deletePic{
+	z-index: 300;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
+	font-size: 14px;
+	opacity:0;
+	cursor: default;
+}
+.fullscreen .deletePic{
+	zoom: 1 !important;
+}
+.fullscreen .deletePic .text{
+	font-size: 14px;
+}
+
+.deletePic:hover{
+	width:250px;
+} 
+.fullscreen .deletePic:hover{
+	width:185px;
+}
+.deletePic .deleteBtn{
+	background: url(../img/close-w.png);
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.deletePic .text{
+	position: absolute;
+	left: 45px;
+	top: 10px;
+	float: left;
+	width: 250px;
+	height: 40px;
+	display: block;
+	padding-left: 5px;
+	font-size: 10px;
+}
 
 
-
+.deletePic .text span, .deletePic .text a{
+	float: left;
+	display: block;
+	line-height: 30px;
+	margin: 0 10px 0 0;
+	font-weight: normal;
+	color: #fff;
+}
+.deletePic .text a{
+	cursor: pointer;
+	font-weight: bold;
+}
+.deletePic .text a:hover{
+	color: #fff;
+	text-decoration: underline;
+}
+.deletePic .text span.color0, 
+.deletePic .text a.color0, 
+.deletePic .text a.color0:hover{
+	color: #4b4b4d;
+}
+.deletePic .text span.color1, 
+.deletePic .text a.color1, 
+.deletePic .text a.color1:hover{
+	color: #e54b4b;
+}
+.deletePic .text span.color2, 
+.deletePic .text a.color2, 
+.deletePic .text a.color2:hover{
+	color: #44669d;
+}
+.deletePic .text span.color3, 
+.deletePic .text a.color3, 
+.deletePic .text a.color3:hover{
+	color: #6fa858;
+}
+.deletePic .text span.color4, 
+.deletePic .text a.color4, 
+.deletePic .text a.color4:hover{
+	color: #ff9900;
+}

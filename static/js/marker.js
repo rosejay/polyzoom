@@ -1,14 +1,69 @@
-function generateMarker(level, index, feeds, map, bounds) {
+var deleteDiv = "<div class='deletePic'>\
+					<div class='deleteBtn'></div>\
+					<div class='text'>\
+						<span>Really?</span>\
+						<a click='' class='do_click'>Yes</a>\
+						<span>/</span>\
+						<a click='' class='cancel_click'>No</a>\
+					</div>\
+				</div>";
+var levelOneStyle = [0,0,0,0,0];
+var levelTwoStyle = [0,0,0,0,0];
+function initTip(level, styleIndex){
 
-	// map style!
-	var styleIndex = Math.floor((Math.random()*5));
-	console.log(styleIndex);
+	$(".systemTip").css("display", "none");
+	if(level == 0){
+		$(".systemTip").fadeIn(150).css("background-color", borderColor[styleIndex]).delay(1000).fadeOut(150);
+	}
+}
+function initDeleteBtn(level, index, styleIndex){
+
+	if(level!=0){
+		$("#level-" + level + "-" + index + ".canvasBox").append(deleteDiv);
+		$("#level-" + level + "-" + index + ".canvasBox .deletePic").addClass("smallDelete").css("zoom", 2);
+		$("#level-" + level + "-" + index + ".canvasBox").find(".deleteBtn").css("background","url("+closeimage[styleIndex]+")");
+		$("#level-" + level + "-" + index + ".canvasBox").find("a").addClass("color"+styleIndex);
+		$("#level-" + level + "-" + index + ".canvasBox").find("span").addClass("color"+styleIndex);
+	}
+}
+function generateMarker(level, index, feeds, map, bounds, olevel, oindex) {
+
+	var styleIndex;
+
+	if(level == 0){
+		styleIndex = 0;
+	}
+	else if(level == 1){
+		/*
+		for(var i = 0; i<5; i++){
+			console.log("d",i);
+			if(levelOneStyle[i] == 0){
+				styleIndex = i;
+				levelOneStyle[i] = 1;
+				break;
+			}
+		}*/
+		styleIndex = index;
+	}
+	else if(level == 2){
+		var a = $("#level-" + olevel + "-" + oindex + ".canvasBox").attr("class");
+		styleIndex = a.indexOf("style");
+		styleIndex = parseInt(a.charAt(styleIndex + 5));
+	}
+
 	var mapstyle = styles[styleIndex];
 	// attach map style!!
 	map.setOptions({styles: mapstyle});
+
 	$("#level-" + level + "-" + index + ".canvasBox").css("border-top", "5px solid "+borderColor[styleIndex]);
 	$("#level-" + level + "-" + index + ".canvasBox").addClass("style"+styleIndex);
 	
+
+	
+
+	initTip(level, styleIndex);
+	initDeleteBtn(level, index, styleIndex);
+
 	var markers = [];
 
 	var s, w, n, e; // south 
@@ -245,8 +300,8 @@ function generateMarker(level, index, feeds, map, bounds) {
 				}// end point is in area
 			}// end x y == 0
 		}// end for
-
-		playMarker(level, index);
+		$("#level-"+level+"-"+index+" .tweetCanvas").css("opacity", 0.3).css("z-index", 10);
+		//playMarker(level, index);
 	}// end level 2	
 
 
@@ -422,4 +477,76 @@ function playMarker(level, index){
 }
 
 
+$(".back-search").live("click", function(){
+
+	var temp = $(".canvasBox").find(".fullscreen");
+	//console.log(maps.length);
+
+	if(!temp.length){
+		window.location.href=""; 
+	}
+	else{
+		$(".canvasBox").removeClass("fullscreen");
+	}
+
+}); 
+
+$(".do_click").live("click", function(){ 
+	var temp = $(this).parent().parent().parent().attr("id").split("-");
+	var level = temp[1];
+	var index = temp[2];
+
+	var a = $("#level-" + level + "-" + index + ".canvasBox").attr("class");
+	var aStyle = a.indexOf("style");
+	aStyle = parseInt(a.charAt(aStyle + 5));
+
+	if(level == 1){
+		// level 1 delete all children!
+		levelOneStyle[index] = 0;
+		var count = 0;
+		for(var i = 0; i<5; i++){
+			if(levelTwoStyle[i]){
+				var b = $("#level-2-" + i + ".canvasBox").attr("class");
+				var bStyle = b.indexOf("style");
+				bStyle = parseInt(b.charAt(bStyle + 5));
+				if(aStyle == bStyle){
+					$("#level-2-" + i + ".canvasBox").remove();
+					count++;
+					levelTwoStyle[i] = 0;
+				}
+			}
+				
+		}
+		levelCanvasNum[2]-=count;
+
+		// delete selectdiv
+		$("#level-0-0.canvasBox").find(".styleDiv"+index).remove();
+
+		$(this).parent().parent().parent().remove(); 
+		levelCanvasNum[1]--;
+	}
+	if(level == 2){
+		// delete selectdiv
+		var parentDiv = $(this).parent().parent().parent().attr("alt");
+		$("#"+parentDiv).remove();
+
+		$(this).parent().parent().parent().remove(); 
+		levelCanvasNum[2]--;
+		levelTwoStyle[index] = 0;
+	}
+	
+	if(levelNum == 3){
+		if(levelCanvasNum[2] == 0)
+			levelNum --;
+		if(levelCanvasNum[1] == 0)
+			levelNum --;
+	}
+	if(levelNum == 2){
+		if(levelCanvasNum[1] == 0)
+			levelNum --;
+	}
+
+	resetStyle();
+
+});	
 

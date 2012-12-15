@@ -308,5 +308,10 @@ var markerstyles = [
 
 
 
-var markerimage =['img/marker.png','img/marker2.png','img/marker3.png','img/marker4.png','img/marker5.png']
+var markerimage =['img/marker.png','img/marker2.png','img/marker3.png','img/marker4.png','img/marker5.png'];
 var borderColor = ["#4b4b4d", "#e54b4b", "#44669d", "#6fa858", "#ff9900"];
+var closeimage =['../img/close0.png','../img/close1.png','../img/close2.png','../img/close3.png','../img/close4.png'];
+
+
+
+

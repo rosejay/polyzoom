@@ -11,7 +11,7 @@
    var lastScrolledTop = 0;
    var xMousePos = 0;
    var yMousePos = 0;
-  
+   var parentDiv = "";
   /*
    init();
 
@@ -50,59 +50,54 @@
    var selectDivs = 0;
 
    function toggleZoomCanvas(level, index) {
-      if ($(" #level-" + level + "-" + index + ".canvasBox").hasClass("bigger")) {
-         // already bigger, be smaller!
-         $(" #level-" + level + "-" + index + ".canvasBox").removeClass("bigger");
-         zoomedNum--;
-         resetStyle();
-      } else {
-         // make it bigger
-         $(" .canvasBox").removeClass("bigger");
-         $(" #level-" + level + "-" + index + ".canvasBox").addClass("bigger");
-         zoomedNum++;
-         if (levelCanvasNum[level] == 2 && levelNum == 2) {
-            zoomedSizeBig = 80;
-            zoomedSizeSmall = 20;
-         } else if (levelCanvasNum[level] == 4) {
-            zoomedSizeBig = 70;
-            zoomedSizeSmall = 10;
-         } else if (levelCanvasNum[level] == 5) {
-            zoomedSizeBig = 60;
-            zoomedSizeSmall = 10;
-         } else {
-            zoomedSizeBig = 80;
-            zoomedSizeSmall = 20;
-         }
-         
-         for (var i = 0; i < levelNum; i++) {
-            if (i == level || $("#level-" + i).children().hasClass("bigger")) {
-               $("#level-" + i).css("height", zoomedSizeBig + "%");
-            } else $("#level-" + i).css("height", zoomedSizeSmall + "%");
-         }
-         $(".canvasBox").css("zoom", zoomedSizeSmall + "%");
-         $(".bigger").css("zoom", zoomedSizeBig + "%");
+      if($(" #level-" + level + "-" + index + ".canvasBox").hasClass("fullscreen")){
+         $(" #level-" + level + "-" + index + ".canvasBox").removeClass("fullscreen");
+      }else{
+         $(" #level-" + level + "-" + index + ".canvasBox").addClass("fullscreen");
+         playMarker(level, index);
       }
    }
 
-   function newCanvas(level, feeds, bnds) {
+   function newCanvas(level, feeds, bnds, olevel, oindex, parent) {
       // google map 
       var tempHTML; // html of a new level
       curLevel = level;
       levelCanvasNum[level]++; // canvas numbers for each level from 1, 2, 3, 4, 5. 
-      curIndex = levelCanvasNum[level] - 1; // index from 0, 1, 2, ...
+      //curIndex = levelCanvasNum[level] - 1; // index from 0, 1, 2, ...
+      if(curLevel == 1){
+         for(var i = 0; i<5; i++){
+            if(levelOneStyle[i] == 0){
+               curIndex = i;
+               levelOneStyle[i] = 1;
+               break;
+            }
+         }
+      }
+      else if(curLevel == 2){
+         for(var i = 0; i<5; i++){
+            if(levelTwoStyle[i] == 0){
+               curIndex = i;
+               levelTwoStyle[i] = 1;
+               break;
+            }
+         }
+
+      }
+
       if (levelCanvasNum[level] == 1) { // create a new level
-         tempHTML = "<div id='level-" + curLevel + "' class='clear levelBox'>\
-				          	<div id='level-" + curLevel + "-" + curIndex + "' class='canvasBox' style='width:" + (winwidth - 12) + "px;height:" + (winheight - 12) + "px'>\
+         tempHTML = "<div id='level-" + curLevel + "' class='clear levelBox'></div>\
+				          	<div alt='"+parent+"' id='level-" + curLevel + "-" + curIndex + "' class='canvasBox' style='width:" + (winwidth - 12) + "px;height:" + (winheight - 12) + "px'>\
 				            	<div class='canvas' id='map-" + curLevel + "-" + curIndex + "' ></div>\
-				          	</div></div>"
+				          	</div>"
          $("#page-2").append(tempHTML);
          levelNum++;
       } else { // add a new canvas to an existed level
-         tempHTML = "<div id='level-" + curLevel + "-" + curIndex + "' class='canvasBox' style='width:" + (winwidth - 12) + "px;height:" + (winheight - 12) + "px'>\
+         tempHTML = "<div alt='"+parent+"' id='level-" + curLevel + "-" + curIndex + "' class='canvasBox' style='width:" + (winwidth - 12) + "px;height:" + (winheight - 12) + "px'>\
 				            <div class='canvas' id='map-" + curLevel + "-" + curIndex + "' ></div>\
 				        </div>"
          $("#level-" + curLevel+ "-" + (curIndex-1)).after(tempHTML);
       }
+
 
       //console.log(bnds);
 
@@ -233,6 +228,8 @@
       DragZoom.prototype.init_ = function (map, opt_zoomOpts) {
          var i;
          var me = this;
+         this.level_ = curLevel;
+         this.parentDiv_ = parent;
          this.map_ = map;
          this.key_ = "shift";
          this.key_ = this.key_.toLowerCase();
@@ -378,12 +375,12 @@
          }
       };
       DragZoom.prototype.onKeyDown_ = function (e) {
-         if (this.map_ && !this.hotKeyDown_ && this.isHotKeyDown_(e) && curLevel!=2) {
+
+         if (this.map_ && !this.hotKeyDown_ && this.isHotKeyDown_(e) && this.level_<2 && levelCanvasNum[this.level_+1]< 5) {
             this.mapPosn_ = getElementPosition(this.map_.getDiv());
             this.hotKeyDown_ = true;
             this.activatedByControl_ = false;
             this.setVeilVisibility_();
-
          }
       };
       DragZoom.prototype.getMousePoint_ = function (e) {
@@ -405,27 +402,21 @@
             var prj = this.prjov_.getProjection();
             var latlng = prj.fromContainerPixelToLatLng(this.startPt_);
             this.boxDiv_ = document.createElement("div");
+            this.parentDiv_ = "selectDiv" + curLevel + "-" + selectDivs;
             this.boxDiv_.setAttribute("id", "selectDiv" + curLevel + "-" + selectDivs);
             this.boxDiv_.setAttribute("class", "selectDiv"); //!!!
-            // Apply default style values for the zoom box:
-			// define our colors
-         /*
-			if (curLevel=0)
-			{
-			var colors = ["#CCCCCC","#333333","#990099","#000000", "#949c51", "#571c1e", "#f36533", "#782a80", "#f6a41d", "#ed1b24"];
-			// get a random color from list
-			var rand   = Math.floor(Math.random()*colors.length);
-			this.boxDiv_.style.borderColor = colors[rand];
-			}
-			else
-			{
-			this.boxDiv_.style.borderColor = "#736AFF";
-			}
-            setVals(this.boxDiv_.style, {
-               border: "8px solid"
-            });
-			*/
-            // Apply mandatory style values:
+
+            if(this.level_ == 0){
+
+               for(var i = 0; i<5; i++){
+                  if(levelOneStyle[i] == 0){
+                     this.boxDiv_.setAttribute("class", "selectDiv styleDiv" + i);
+                     break;
+                  }
+               }
+
+            }
+
             setVals(this.boxDiv_.style, {
                position: "absolute",
                display: "none"
@@ -500,10 +491,13 @@
             // var transform = ['scale(' + 0.5 + ')'];
             // $("#map_outer").css('-webkit-transform', transform.join(' '));
             var temp = this.map_.getDiv().id.split("-");
+            var oldLevel = temp[1];
+            var oldIndex = temp[2];
+
             if (++temp[1] > 2) showTip("Sorry, no more than three levels ");
             else if (levelCanvasNum[temp[1]] == 5) //maximum 5 canvas per level
             showTip("Sorry, no more than five children per level ");
-            else newCanvas(temp[1], feeds, bnds);
+            else newCanvas(temp[1], feeds, bnds, oldLevel, oldIndex, this.parentDiv_);
             this.dragging_ = false;
             this.onMouseMove_(e);
             if (!this.isHotKeyDown_(e)) {
@@ -555,7 +549,7 @@
       // draw a rectangle and create a new map
       resetStyle();
 
-      generateMarker(level, curIndex, feeds, map, bnds);
+      generateMarker(level, curIndex, feeds, map, bnds, olevel, oindex);
 
 
    }
@@ -568,18 +562,34 @@
          if (levelHeight[i] > defaultHeight) {
             levelHeight[i] = defaultHeight;
          }
-         $("#level-"+i).css("height", levelHeight[i] + "%");
-         for (var j = 0; j < levelCanvasNum[i]; j++) {
-            $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
-            /*
-				$("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
-				$("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
-				*/
+         //$("#level-"+i).css("height", levelHeight[i] + "%");
+         if(i == 1){
+            for (var j = 0; j < 5; j++) {
+               if(levelOneStyle[j]){
+                  $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
+                  /*
+                  $("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
+                  $("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
+                  */
+               }
+            }
          }
+         else if(i == 2){
+            for (var j = 0; j < 5; j++) {
+               if(levelTwoStyle[j]){
+                  $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
+                  /*
+                  $("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
+                  $("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
+                  */
+               }
+            }
+         }
+            
       }
       // for level 0
       levelHeight[0] = 100 - levelHeight[1] - levelHeight[2];
-      $("#level-0").css("height", levelHeight[0] + "%");
+      //$("#level-0").css("height", levelHeight[0] + "%");
       $("#level-0-0.canvasBox").css("zoom", levelHeight[0] + "%");
       /*
 		$("#level-0-0.canvasBox").css("height", levelHeight[0]+"%");

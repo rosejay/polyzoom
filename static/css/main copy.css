@@ -85,6 +85,13 @@ body{
 	position: relative;
 	overflow: hidden;
 }
+#page-2 .canvasBox.fullscreen{
+	position: absolute;
+	z-index: 200;
+	top: 12px;
+	left: 12px;
+	zoom: 1;
+}
 #page-2 .canvasBox .canvas{
 	background: #eee;
 	border: 1px solid #ddd;
