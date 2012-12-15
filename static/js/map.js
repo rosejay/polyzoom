@@ -566,7 +566,7 @@
          if(i == 1){
             for (var j = 0; j < 5; j++) {
                if(levelOneStyle[j]){
-                  $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
+                  $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]) + "%");
                   /*
                   $("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
                   $("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
@@ -577,7 +577,7 @@
          else if(i == 2){
             for (var j = 0; j < 5; j++) {
                if(levelTwoStyle[j]){
-                  $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]-2) + "%");
+                  $("#level-" + i + "-" + j + ".canvasBox").css("zoom", (levelHeight[i]) + "%");
                   /*
                   $("#level-"+i+"-"+j+".canvasBox").css("height", levelHeight[i]+"%");
                   $("#level-"+i+"-"+j+".canvasBox").css("width", levelHeight[i]+"%");
