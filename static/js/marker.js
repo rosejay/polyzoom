@@ -27,6 +27,7 @@ function initDeleteBtn(level, index, styleIndex){
 	}
 }
 function generateMarker(level, index, feeds, map, bounds, olevel, oindex) {
+	$(".canvasBox").removeClass("fullscreen");
 
 	var styleIndex;
 
@@ -479,7 +480,7 @@ function playMarker(level, index){
 
 $(".back-search").live("click", function(){
 
-	var temp = $(".canvasBox").find(".fullscreen");
+	var temp = $("#page-2").find(".fullscreen");
 	//console.log(maps.length);
 
 	if(!temp.length){
