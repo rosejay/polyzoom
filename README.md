@@ -24,7 +24,7 @@ Ye Lin & Sai
 
 1 Install [Node.js] (http://nodejs.org/)
 
-2 Install [Mangodb](http://www.mongodb.org/)
+2 Install [Mongodb](http://www.mongodb.org/)
 
 3 Import database tweet.json
 	
